@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "SfBold";
+  src: url(/public/fonts/San\ Francisco\ bold\ .ttf);
+}
+
+:root {
+  --sf-bold: "SfBold", sans-serif;
+}
+
+.grad-bg {
+  background: linear-gradient(to right, #ffae00, #ff8800);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
