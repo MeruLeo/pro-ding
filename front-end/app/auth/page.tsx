@@ -9,7 +9,7 @@ import * as Yup from "yup";
 import DynamicForm from "../../components/form/DynamicForm";
 import NormalButton from "../../components/button/NormBtn";
 import { LinkIcon, LoginIcon, PlusIcon } from "../../components/icons/icons";
-import { Divider, Card, CardBody, Tabs, Tab } from "@nextui-org/react";
+import { Divider, Card, CardBody, Tabs, Tab, Button } from "@nextui-org/react";
 import Link from "next/link";
 
 // فیلدهای فرم ورود
@@ -90,7 +90,6 @@ const AuthPage: React.FC = () => {
       // router.push("/"); // هدایت به صفحه اصلی
     } catch (err: any) {
       toast.error("خطایی رخ داد.");
-      console.log(err);
     }
   };
 
@@ -118,19 +117,20 @@ const AuthPage: React.FC = () => {
                 fields={loginFields}
                 onSubmit={handleAuth}
                 btn={
-                  <NormalButton
+                  <Button
                     fullWidth
-                    title="ورود"
                     icon={LoginIcon}
                     type="submit"
-                    color="warning"
+                    className="bg-greenDark"
                     variant="shadow"
-                  />
+                  >
+                    ورود
+                  </Button>
                 }
               />
               <Link
                 href="/forgot-password"
-                className="text-yellow-500 my-4 text-center transition-all duration-200 hover:scale-95 flex justify-center items-center"
+                className="text-greenDark my-4 text-center transition-all duration-200 hover:scale-95 flex justify-center items-center"
               >
                 بازیابی رمز عبور {LinkIcon}
               </Link>
@@ -140,14 +140,15 @@ const AuthPage: React.FC = () => {
                 fields={signUpFields}
                 onSubmit={handleAuth}
                 btn={
-                  <NormalButton
+                  <Button
                     fullWidth
-                    title="ثبت نام"
                     icon={PlusIcon}
                     type="submit"
-                    color="warning"
+                    className="bg-greenDark"
                     variant="shadow"
-                  />
+                  >
+                    ثبت نام
+                  </Button>
                 }
               />
             </Tab>
@@ -155,7 +156,7 @@ const AuthPage: React.FC = () => {
           <Divider />
           <Link
             href="/"
-            className="text-center text-sm mt-4 block text-yellow-500"
+            className="text-center text-sm mt-4 block text-greenDark"
           >
             بازگشت به صفحه اصلی
           </Link>

@@ -11,8 +11,12 @@
   --sf-bold: "SfBold", sans-serif;
 }
 
+.test {
+  background-color: red;
+}
+
 .grad-bg {
-  background: linear-gradient(to right, #ffae00, #ff8800);
+  background: linear-gradient(to right, #2aff7d, #0fbf4c);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
