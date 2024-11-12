@@ -1,16 +1,17 @@
 "use client";
 
 import { useState } from "react";
-import axios from "axios";
-import { useRouter } from "next/navigation";
 import Head from "next/head";
-import toast from "react-hot-toast";
 import * as Yup from "yup";
+import { AppDispatch } from "../store";
+import { login, register } from "../features/auth/authSlice";
 import DynamicForm from "../../components/form/DynamicForm";
 import NormalButton from "../../components/button/NormBtn";
 import { LinkIcon, LoginIcon, PlusIcon } from "../../components/icons/icons";
 import { Divider, Card, CardBody, Tabs, Tab, Button } from "@nextui-org/react";
 import Link from "next/link";
+import { useDispatch } from "react-redux";
+import { useRouter } from "next/navigation";
 
 // فیلدهای فرم ورود
 const loginFields = [
@@ -75,21 +76,14 @@ const signUpFields = [
 
 const AuthPage: React.FC = () => {
   const [selectedTab, setSelectedTab] = useState<React.Key>("login");
+  const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
 
   const handleAuth = async (values: { [key: string]: any }) => {
-    try {
-      const endpoint =
-        selectedTab === "login" ? "/v1/auth/login" : "/v1/auth/register";
-      const response = await axios.post(
-        `http://localhost:7227${endpoint}`,
-        values,
-      );
-      localStorage.setItem("accessToken", response.data.accessToken);
-      toast.success("عملیات موفقیت‌آمیز بود");
-      // router.push("/"); // هدایت به صفحه اصلی
-    } catch (err: any) {
-      toast.error("خطایی رخ داد.");
+    if (selectedTab === "login") {
+      await dispatch(login({ values, router }));
+    } else {
+      await dispatch(register({ values, router }));
     }
   };
 

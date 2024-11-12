@@ -8,6 +8,7 @@ const bodyParser = require("body-parser");
 const authRouter = require("./routes/v1/auth");
 const projectRouter = require("./routes/v1/project");
 const taskRouter = require("./routes/v1/task");
+const userRouter = require("./routes/v1/user");
 
 // *ساخت اپ
 const app = express();
@@ -21,5 +22,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use("/v1/auth", authRouter);
 app.use("/v1/project", projectRouter);
 app.use("/v1/task", taskRouter);
+app.use("/v1/user", userRouter);
 
 module.exports = app;

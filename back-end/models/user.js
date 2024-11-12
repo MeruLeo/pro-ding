@@ -16,6 +16,10 @@ const schema = mongoose.Schema(
       required: true,
       unique: true,
     },
+    avatar: {
+      type: String,
+      required: false,
+    },
     role: {
       type: String,
       enum: ["admin", "user"],

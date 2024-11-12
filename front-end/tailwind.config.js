@@ -41,7 +41,7 @@ module.exports = {
 
         // Neutral and Secondary Shades
         grayLight: "#E6E8E9", // خاکستری روشن
-        grayDark: "#404749", // خاکستری تیره
+        grayDark: "#2E3031", // خاکستری تیره
         blueOrg: "#217AFF", // آبی اصلی
         blueLight: "#5A9BFF", // آبی روشن
         blueDark: "#1B61CC", // آبی تیره

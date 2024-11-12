@@ -150,3 +150,23 @@ exports.toggleActivity = async (req, res) => {
     });
   }
 };
+
+exports.taskIsland = async (req, res) => {
+  try {
+    const tasks = await taskModel
+      .find({ isActive: true, isComplite: false })
+      .populate("owner", "-password")
+      .populate("project");
+
+    if (!tasks) {
+      return res.status(404).json({ msg: "No active tasks found" });
+    }
+
+    return res.status(200).json(tasks);
+  } catch (err) {
+    return res.status(500).json({
+      message: "Failed to get task island",
+      error: err.message,
+    });
+  }
+};

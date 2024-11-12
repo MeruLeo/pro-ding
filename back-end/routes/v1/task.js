@@ -21,4 +21,8 @@ router
   .route("/:taskId/toggle-activity")
   .put(authMiddleware, isOwnerMiddleware, taskCtrller.toggleActivity);
 
+router
+  .route("/task-island")
+  .get(authMiddleware, isAssigneeMiddleware, taskCtrller.taskIsland);
+
 module.exports = router;

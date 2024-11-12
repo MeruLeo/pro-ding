@@ -35,7 +35,7 @@ export default function Home() {
       orgColor: "#22B95C",
       bgColor: "#254941",
       path: "/done",
-      progress: 90, // درصد پیشرفت پروژه
+      progress: 90,
     },
     {
       id: 2,

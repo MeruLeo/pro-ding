@@ -51,7 +51,7 @@ export default function NavbarC(): ReactElement {
       ),
     },
     {
-      path: "/members",
+      path: "/profile",
       icon: (
         <i className="fi fi-tr-member-list flex justify-center items-center"></i>
       ),

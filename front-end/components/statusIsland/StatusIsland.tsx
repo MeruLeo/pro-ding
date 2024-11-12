@@ -6,41 +6,41 @@ import {
   DropdownMenu,
   DropdownItem,
   Button,
-  Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
-  Divider,
-  Link,
-  Image,
 } from "@nextui-org/react";
-import { MiniCheckIcon, SignalIcon } from "../icons/icons";
+import {
+  MiniCheckIcon,
+  SignalIcon,
+  WorkIcon,
+  UserIcon,
+  Calendar,
+  CalendarDays,
+} from "../icons/icons";
 
 export default function StatusIsland() {
   const statusIslandItems = [
     {
       key: "project",
-      label: "پروژه",
-      icon: <i class="fi fi-sr-bullseye-arrow"></i>,
-      description: "پروژه تستی",
+      description: "پروژه",
+      icon: WorkIcon,
+      label: "پروژه تستی",
     },
     {
       key: "owner",
-      label: "مالک",
-      icon: <i class="fi fi-sr-user"></i>,
-      description: "امیرعلی الله‌وردی",
+      description: "مالک",
+      icon: UserIcon,
+      label: "امیرعلی الله‌وردی",
     },
     {
       key: "start_date",
-      label: "تاریخ شروع",
-      icon: <i class="fi fi-sr-calendar-lines-pen"></i>,
-      description: "۱۴۰۳/۱۱/۱۲",
+      description: "تاریخ شروع",
+      icon: Calendar,
+      label: "۱۴۰۳/۱۱/۱۲",
     },
     {
       key: "end_date",
-      label: "تاریخ پایان",
-      icon: <i class="fi fi-sr-challenge"></i>,
-      description: "۱۴۰۴/۰۰/۰۰",
+      description: "تاریخ پایان",
+      icon: CalendarDays,
+      label: "۱۴۰۴/۰۰/۰۰",
     },
   ];
 
@@ -62,8 +62,9 @@ export default function StatusIsland() {
               color="primary"
               variant="faded"
               description={item.description}
+              startContent={item.icon}
             >
-              {item.icon} {item.label}
+              {item.label}
             </DropdownItem>
           ))}
           <DropdownItem
