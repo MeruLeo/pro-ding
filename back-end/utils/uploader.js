@@ -3,7 +3,18 @@ const multer = require("multer");
 
 module.exports = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, path.join(__dirname, "..", "public", "users", "profiles"));
+    cb(
+      null,
+      path.join(
+        __dirname,
+        "..",
+        "..",
+        "front-end",
+        "public",
+        "imgs",
+        "avatars",
+      ),
+    );
   },
   filename: (req, file, cb) => {
     const fileName = Date.now() + String(Math.random() * 9999);

@@ -41,7 +41,7 @@ export default function NavbarC(): ReactElement {
     {
       path: "/about",
       icon: (
-        <i className="fi fi-tr-master-plan flex justify-center items-center"></i>
+        <i className="fi fi-tr-bullseye-arrow flex justify-center items-center"></i>
       ),
     },
     {

@@ -1,4 +1,6 @@
-export const LoginIcon = (
+import React from "react";
+
+export const LoginIcon: React.FC = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
@@ -15,7 +17,7 @@ export const LoginIcon = (
   </svg>
 );
 
-export const UserIcon = (
+export const UserIcon: React.FC = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
@@ -32,7 +34,7 @@ export const UserIcon = (
   </svg>
 );
 
-export const KeyIcon = (
+export const KeyIcon: React.FC = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
@@ -49,7 +51,7 @@ export const KeyIcon = (
   </svg>
 );
 
-export const PlusIcon = (
+export const PlusIcon: React.FC = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
@@ -66,7 +68,7 @@ export const PlusIcon = (
   </svg>
 );
 
-export const LinkIcon = (
+export const LinkIcon: React.FC = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
@@ -83,7 +85,7 @@ export const LinkIcon = (
   </svg>
 );
 
-export const CheckIcon = (
+export const CheckIcon: React.FC = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
@@ -99,7 +101,7 @@ export const CheckIcon = (
     />
   </svg>
 );
-export const MiniCheckIcon = (
+export const MiniCheckIcon: React.FC = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
@@ -116,7 +118,7 @@ export const MiniCheckIcon = (
   </svg>
 );
 
-export const ClipboardIcon = (
+export const ClipboardIcon: React.FC = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
@@ -133,7 +135,7 @@ export const ClipboardIcon = (
   </svg>
 );
 
-export const TimeIcon = (
+export const TimeIcon: React.FC = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
@@ -150,7 +152,7 @@ export const TimeIcon = (
   </svg>
 );
 
-export const DocIcon = (
+export const DocIcon: React.FC = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
@@ -167,7 +169,7 @@ export const DocIcon = (
   </svg>
 );
 
-export const WorkIcon = (
+export const WorkIcon: React.FC = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
@@ -184,7 +186,7 @@ export const WorkIcon = (
   </svg>
 );
 
-export const SignalIcon = (
+export const SignalIcon: React.FC = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
@@ -201,7 +203,7 @@ export const SignalIcon = (
   </svg>
 );
 
-export const Calendar = (
+export const Calendar: React.FC = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
@@ -218,7 +220,7 @@ export const Calendar = (
   </svg>
 );
 
-export const CalendarDays = (
+export const CalendarDays: React.FC = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
@@ -235,7 +237,7 @@ export const CalendarDays = (
   </svg>
 );
 
-export const InboxIcon = (
+export const InboxIcon: React.FC = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
@@ -252,7 +254,7 @@ export const InboxIcon = (
   </svg>
 );
 
-export const ChartIcon = (
+export const ChartIcon: React.FC = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
@@ -269,7 +271,7 @@ export const ChartIcon = (
   </svg>
 );
 
-export const LogoutIcon = (
+export const LogoutIcon: React.FC = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     fill="none"

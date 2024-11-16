@@ -9,6 +9,7 @@ const authRouter = require("./routes/v1/auth");
 const projectRouter = require("./routes/v1/project");
 const taskRouter = require("./routes/v1/task");
 const userRouter = require("./routes/v1/user");
+const skillRouter = require("./routes/v1/skill");
 
 // *ساخت اپ
 const app = express();
@@ -23,5 +24,6 @@ app.use("/v1/auth", authRouter);
 app.use("/v1/project", projectRouter);
 app.use("/v1/task", taskRouter);
 app.use("/v1/user", userRouter);
+app.use("/v1/skill", skillRouter);
 
 module.exports = app;

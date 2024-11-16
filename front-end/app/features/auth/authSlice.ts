@@ -48,7 +48,12 @@ export const register = createAsyncThunk(
       values,
       router,
     }: {
-      values: { username: string; email: string; password: string };
+      values: {
+        username: string;
+        email: string;
+        password: string;
+        name: string;
+      };
       router: any;
     },
     { rejectWithValue },
@@ -63,6 +68,7 @@ export const register = createAsyncThunk(
 
       router.push("/");
     } catch (error) {
+      console.log(error);
       toast.error("خطایی در ثبت نام رخ داد");
       return rejectWithValue(error.response.data.message || "خطایی رخ داد");
     }

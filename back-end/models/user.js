@@ -20,6 +20,20 @@ const schema = mongoose.Schema(
       type: String,
       required: false,
     },
+    bio: {
+      type: String,
+      required: false,
+    },
+    name: {
+      type: String,
+      required: true,
+    },
+    // skills: [
+    //   {
+    //     type: String,
+    //     required: true,
+    //   },
+    // ],
     role: {
       type: String,
       enum: ["admin", "user"],

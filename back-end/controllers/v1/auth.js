@@ -47,7 +47,7 @@ exports.register = async (req, res) => {
       return res.status(422).json(validationResult);
     }
 
-    const { username, password, email } = req.body;
+    const { username, password, email, name, bio } = req.body;
 
     const existedUser = await userModel.findOne({
       $or: [{ username }, { email }],
@@ -66,8 +66,11 @@ exports.register = async (req, res) => {
       username,
       password: hashedPassword,
       email,
+      bio,
+      name,
       role: countOfUsers > 0 ? "user" : "admin",
       isActive: true,
+      // avatar: req.file.filename,
     });
 
     // !حذف پسوورد از اطلاعات بازگشتی کاربر وقتی ثبت نام موفقیت آمیز بود

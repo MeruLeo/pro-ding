@@ -1,25 +1,49 @@
 "use client";
 
+// 1. ایمپورت‌های خارجی
 import { useState } from "react";
-import Head from "next/head";
-import * as Yup from "yup";
-import { AppDispatch } from "../store";
-import { login, register } from "../features/auth/authSlice";
-import DynamicForm from "../../components/form/DynamicForm";
-import NormalButton from "../../components/button/NormBtn";
-import { LinkIcon, LoginIcon, PlusIcon } from "../../components/icons/icons";
-import { Divider, Card, CardBody, Tabs, Tab, Button } from "@nextui-org/react";
-import Link from "next/link";
-import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
+import Head from "next/head";
+import Link from "next/link";
+import { Divider, Card, CardBody, Tabs, Tab, Button } from "@nextui-org/react";
+import { useDispatch } from "react-redux";
+import * as Yup from "yup";
+
+// 2. ایمپورت‌های داخلی
+import DynamicForm from "../../../components/form/DynamicForm";
+import { LoginIcon, PlusIcon } from "../../../components/icons/icons";
+import { AppDispatch } from "../../store";
+import { login, register } from "../../features/auth/authSlice";
+
+// تایپ‌های مربوط به مقادیر فرم‌ها
+type LoginValues = {
+  identifier: string;
+  password: string;
+};
+
+type RegisterValues = {
+  username: string;
+  email: string;
+  password: string;
+  name: string;
+};
+
+// تایپ مربوط به فیلدها
+type FieldType = {
+  name: string;
+  label: string;
+  type: "number" | "text" | "password" | "email"; // شامل انواع مختلف
+  icon?: JSX.Element;
+  placeholder: string;
+  validation: Yup.StringSchema<string, Yup.AnyObject>;
+};
 
 // فیلدهای فرم ورود
-const loginFields = [
+const loginFields: FieldType[] = [
   {
     name: "identifier",
     label: "نام کاربری یا ایمیل",
     type: "text",
-    icon: null,
     placeholder: "نام کاربری یا ایمیل خود را وارد کنید",
     validation: Yup.string()
       .required("این فیلد اجباری است")
@@ -36,7 +60,6 @@ const loginFields = [
     name: "password",
     label: "رمز عبور",
     type: "password",
-    icon: null,
     placeholder: "رمز عبور خود را وارد کنید",
     validation: Yup.string()
       .min(6, "حداقل ۶ کاراکتر لازم است")
@@ -45,28 +68,34 @@ const loginFields = [
 ];
 
 // فیلدهای فرم ثبت‌نام
-const signUpFields = [
+const signUpFields: FieldType[] = [
   {
     name: "username",
     label: "نام کاربری",
     type: "text",
-    icon: null,
     placeholder: "نام کاربری خود را وارد کنید",
     validation: Yup.string().required("این فیلد اجباری است"),
+  },
+  {
+    name: "name",
+    label: "نام",
+    type: "text",
+    placeholder: "نام خود را وارد کنید",
+    validation: Yup.string().required("نام اجباری است"),
   },
   {
     name: "email",
     label: "ایمیل",
     type: "email",
-    icon: null,
-    placeholder: "ایمیل  خود را وارد کنید",
-    validation: Yup.string().required("رمز عبور اجباری است"),
+    placeholder: "ایمیل خود را وارد کنید",
+    validation: Yup.string()
+      .email("ایمیل نامعتبر است")
+      .required("ایمیل اجباری است"),
   },
   {
     name: "password",
     label: "رمز عبور",
     type: "password",
-    icon: null,
     placeholder: "رمز عبور خود را وارد کنید",
     validation: Yup.string()
       .min(6, "حداقل ۶ کاراکتر لازم است")
@@ -75,24 +104,21 @@ const signUpFields = [
 ];
 
 const AuthPage: React.FC = () => {
-  const [selectedTab, setSelectedTab] = useState<React.Key>("login");
+  const [selectedTab, setSelectedTab] = useState<"login" | "sign-up">("login");
   const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
 
-  const handleAuth = async (values: { [key: string]: any }) => {
-    if (selectedTab === "login") {
-      await dispatch(login({ values, router }));
-    } else {
-      await dispatch(register({ values, router }));
-    }
+  const handleAuth = async (values: LoginValues | RegisterValues) => {
+    const action = selectedTab === "login" ? login : register;
+    await dispatch(action({ values, router }));
   };
 
   return (
-    <div className="flex items-center justify-center">
+    <div className="flex justify-center w-full items-center absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2">
       <Head>
         <title>{selectedTab === "login" ? "ورود" : "ثبت نام"}</title>
       </Head>
-      <Card className="max-w-md w-full shadow-lg rounded-3xl" shadow="lg">
+      <Card className="max-w-md w-full shadow-lg rounded-3xl">
         <CardBody className="p-8">
           <h2 className="text-center text-4xl font-bold text-gray-300 my-4">
             {selectedTab === "login" ? "ورود به " : "ثبت نام در "}
@@ -102,18 +128,20 @@ const AuthPage: React.FC = () => {
             aria-label="Auth Tabs"
             fullWidth
             selectedKey={selectedTab}
-            onSelectionChange={setSelectedTab}
+            onSelectionChange={(key) =>
+              setSelectedTab(key as "login" | "sign-up")
+            }
             className="mb-4"
             radius="full"
           >
             <Tab key="login" title="ورود">
-              <DynamicForm
+              <DynamicForm<LoginValues>
                 fields={loginFields}
                 onSubmit={handleAuth}
                 btn={
                   <Button
                     fullWidth
-                    icon={LoginIcon}
+                    icon={<LoginIcon />}
                     type="submit"
                     className="bg-greenDark"
                     variant="shadow"
@@ -126,11 +154,11 @@ const AuthPage: React.FC = () => {
                 href="/forgot-password"
                 className="text-greenDark my-4 text-center transition-all duration-200 hover:scale-95 flex justify-center items-center"
               >
-                بازیابی رمز عبور {LinkIcon}
+                بازیابی رمز عبور
               </Link>
             </Tab>
             <Tab key="sign-up" title="ثبت نام">
-              <DynamicForm
+              <DynamicForm<RegisterValues>
                 fields={signUpFields}
                 onSubmit={handleAuth}
                 btn={

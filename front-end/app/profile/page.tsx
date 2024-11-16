@@ -9,46 +9,34 @@ import {
   ChartIcon,
   LogoutIcon,
 } from "@/components/icons/icons";
-import { AppDispath, RootState } from "./../store";
+import { AppDispatch, RootState } from "../store";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUser } from "../features/user/userSlice";
 
+// --- ProfileHeader Props ---
 interface ProfileHeaderProps {
   avatar: string;
   name: string;
   bio: string;
 }
 
+// --- ProfileMainAction Props ---
 interface ProfileMainActionProps {
   path: string;
-  icon: ReactElement;
+  icon: React.ReactElement;
   label: string;
 }
 
-const profileMainActions = [
-  {
-    label: "حساب کاربری",
-    icon: UserIcon,
-    path: "/",
-  },
-  {
-    label: "صندوق ورودی",
-    icon: InboxIcon,
-    path: "/",
-  },
-  {
-    label: "فعالیت ها",
-    icon: ChartIcon,
-    path: "/",
-  },
-];
-
+// --- Profile Header Component ---
 const ProfileHeader: React.FC<ProfileHeaderProps> = ({ avatar, name, bio }) => (
   <header className="bg-grayDark flex flex-col justify-center items-center p-4 rounded-3xl m-1">
+    <div className="absolute top-0 border-1 border-grayLight left-0 m-3 py-1 px-2 rounded-full bg-zinc-900">
+      <span>1403/12/12</span>
+    </div>
     <div className="bg-grayLight p-1 rounded-full">
       <Image
-        alt={`${name}s avatar`}
-        src={avatar}
+        alt={`${name}'s avatar`}
+        src={avatar || "/imgs/avatars/default.jpg"}
         width={120}
         height={120}
         className="rounded-full"
@@ -56,29 +44,31 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({ avatar, name, bio }) => (
     </div>
     <div>
       <h3 className="font-bold text-xl mt-4 mb-2">{name}</h3>
-      <p>{bio}</p>
+      <p className="py-2 px-4 bg-zinc-900 rounded-full w-full">{bio}</p>
     </div>
   </header>
 );
 
+// --- Profile Main Action Component ---
 const ProfileMainAction: React.FC<ProfileMainActionProps> = ({
   icon,
   label,
   path,
 }) => (
-  <li className="w-72 m-1">
+  <li className="w-full m-1 transition-all duration-200 hover:scale-95">
     <Link
       href={path}
-      className="flex flex-col justify-between items-center bg-grayDark p-4 rounded-3xl transition-all duration-200 hover:bg-zinc-800"
+      className="flex justify-between items-center bg-grayDark p-6 rounded-3xl transition-all duration-200 hover:bg-zinc-800"
     >
+      <h5 className="font-bold">{label}</h5>
       <span className="text-greenDark">{icon}</span>
-      <h5 className="font-bold mt-2">{label}</h5>
     </Link>
   </li>
 );
 
+// --- Profile Component ---
 export default function Profile() {
-  const dispatch = useDispatch<AppDispath>();
+  const dispatch = useDispatch<AppDispatch>();
   const { avatar, username, bio, loading, error } = useSelector(
     (state: RootState) => state.user,
   );
@@ -88,22 +78,47 @@ export default function Profile() {
   }, [dispatch]);
 
   if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
+  if (error) return <div className="text-red-500">Error: {error}</div>;
 
-  console.log(username);
+  // --- Default Avatar Handling ---
+  const userAvatar = avatar
+    ? `/imgs/avatars/${avatar}`
+    : "/imgs/avatars/me.jpg";
 
   return (
-    <section>
+    <div className="flex justify-center w-[30rem] items-stretch flex-col absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2">
+      {/* Profile Header */}
       <ProfileHeader
-        avatar={avatar || "/imgs/avatars/me.jpg"}
+        avatar={userAvatar}
         name={username || "نام کاربری"}
         bio={bio || "بیو"}
       />
-      <ul className="flex">
+
+      {/* Profile Main Actions */}
+      <ul className="flex flex-wrap justify-center">
         {profileMainActions.map((action, index) => (
           <ProfileMainAction key={index} {...action} />
         ))}
       </ul>
-    </section>
+    </div>
   );
 }
+
+// --- Profile Actions ---
+const profileMainActions: ProfileMainActionProps[] = [
+  {
+    label: "حساب کاربری",
+    icon: <UserIcon />, // JSX
+    path: "/user-account",
+  },
+  {
+    label: "صندوق ورودی",
+    icon: <InboxIcon />, // JSX
+    path: "/inbox",
+  },
+  {
+    label: "فعالیت‌ها",
+    icon: <ChartIcon />, // JSX
+    path: "/activities",
+  },
+];

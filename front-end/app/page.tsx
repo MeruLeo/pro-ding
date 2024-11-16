@@ -19,7 +19,7 @@ import React, { ReactElement } from "react";
 type ProjectStateProps = {
   title: string;
   count: number;
-  icon: ReactElement;
+  icon: React.FC;
   orgColor: string;
   bgColor: string;
   path: string;
@@ -31,7 +31,7 @@ export default function Home() {
       id: 1,
       title: "پروژه های انجام شده",
       count: 10,
-      icon: CheckIcon,
+      icon: <CheckIcon />,
       orgColor: "#22B95C",
       bgColor: "#254941",
       path: "/done",
@@ -41,7 +41,7 @@ export default function Home() {
       id: 2,
       title: "پروژه های درحال انجام",
       count: 10,
-      icon: ClipboardIcon,
+      icon: <ClipboardIcon />,
       orgColor: "#0DA5E9",
       bgColor: "#203C55",
       path: "/in-progress",
@@ -51,7 +51,7 @@ export default function Home() {
       id: 3,
       title: "پروژه های  بعدی",
       count: 10,
-      icon: DocIcon,
+      icon: <DocIcon />,
       orgColor: "#FBBF24",
       bgColor: "#4F4838",
       path: "/upcoming",
@@ -61,7 +61,7 @@ export default function Home() {
       id: 4,
       title: "پروژه های تعویق شده",
       count: 10,
-      icon: TimeIcon,
+      icon: <TimeIcon />,
       orgColor: "#E24243",
       bgColor: "#4C2F3C",
       path: "/delayed",
