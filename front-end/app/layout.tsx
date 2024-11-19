@@ -53,7 +53,7 @@ export default function RootLayout({
         className={clsx("min-h-screen bg-bgMain antialiased", sfBold.variable)}
       >
         <Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>
-          <div className="relative  flex flex-col h-screen">
+          <div className="relative flex flex-col h-screen">
             {/* <StatusIsland /> */}
             <main className="container mx-auto max-w-7xl pt-16 px-6 flex-grow">
               <Toaster position="top-left" />

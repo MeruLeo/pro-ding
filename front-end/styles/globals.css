@@ -21,3 +21,64 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+
+.open {
+  animation: OpenAni 0.3s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+}
+
+.close {
+  animation: CloseAni 0.3s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+}
+
+.open-overlay {
+  animation: openOverlay 0.3s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+}
+.close-overlay {
+  animation: closeOverlay 0.3s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+}
+
+@keyframes openOverlay {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes closeOverlay {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes OpenAni {
+  0% {
+    display: none;
+    opacity: 0;
+    transform: translateY(-50%) scale(0.5);
+    filter: blur(30px);
+  }
+  100% {
+    display: block;
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes CloseAni {
+  0% {
+    display: block;
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-20%) scale(0.8);
+    filter: blur(10px);
+  }
+}

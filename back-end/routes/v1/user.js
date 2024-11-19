@@ -9,6 +9,13 @@ const router = express.Router();
 router.route("/").get(authMiddleware, userCtrller.getMe);
 
 router
+  .route("/settings")
+  .put(authMiddleware, userCtrller.toggleAccountStatus)
+  .delete(authMiddleware, userCtrller.deleteAccount);
+
+router.route("/:field").put(authMiddleware, userCtrller.editInfo);
+
+router
   .route("/avatar")
   .get(authMiddleware, userCtrller.getAvatar)
   .post(

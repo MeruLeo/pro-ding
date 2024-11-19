@@ -7,22 +7,24 @@ const isAssigneeMiddleware = require("../../middlewares/taskAssignee");
 const router = express.Router();
 
 router
-  .route("/")
-  .post(authMiddleware, isOwnerMiddleware, taskCtrller.create)
-  .get(authMiddleware, isAssigneeMiddleware, taskCtrller.getTasksFromProject);
+    .route("/")
+    .post(authMiddleware, isOwnerMiddleware, taskCtrller.create)
+    .get(authMiddleware, isAssigneeMiddleware, taskCtrller.getTasksFromProject);
+
+router.route("/user-tasks").get(authMiddleware, taskCtrller.getUserTasks);
 
 router
-  .route("/:taskId")
-  .get(authMiddleware, isOwnerMiddleware, taskCtrller.getTask)
-  .put(authMiddleware, isOwnerMiddleware, taskCtrller.toggleComplite)
-  .delete(authMiddleware, isOwnerMiddleware, taskCtrller.delete);
+    .route("/:taskId")
+    .get(authMiddleware, isOwnerMiddleware, taskCtrller.getTask)
+    .put(authMiddleware, isOwnerMiddleware, taskCtrller.toggleComplite)
+    .delete(authMiddleware, isOwnerMiddleware, taskCtrller.delete);
 
 router
-  .route("/:taskId/toggle-activity")
-  .put(authMiddleware, isOwnerMiddleware, taskCtrller.toggleActivity);
+    .route("/:taskId/toggle-activity")
+    .put(authMiddleware, isOwnerMiddleware, taskCtrller.toggleActivity);
 
 router
-  .route("/task-island")
-  .get(authMiddleware, isAssigneeMiddleware, taskCtrller.taskIsland);
+    .route("/task-island")
+    .get(authMiddleware, isAssigneeMiddleware, taskCtrller.taskIsland);
 
 module.exports = router;

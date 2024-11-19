@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import Cookies from "js-cookie";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 interface UserState {
   avatar: string | null;
@@ -9,6 +10,7 @@ interface UserState {
   bio: string | null;
   email: string | null;
   name: string | null;
+  createdAt: string | null;
   loading: boolean;
   error: string | null;
 }
@@ -19,6 +21,7 @@ const initialState: UserState = {
   bio: null,
   email: null,
   name: null,
+  createdAt: null,
   loading: false,
   error: null,
 };
@@ -78,19 +81,97 @@ export const uploadAvatar = createAsyncThunk(
   },
 );
 
+export const updateUser = createAsyncThunk(
+  "user/updateUser",
+  async (
+    { field, value }: { field: string; value: string },
+    { rejectWithValue },
+  ) => {
+    try {
+      const token = Cookies.get("accessToken");
+      if (!token) {
+        throw new Error("توکن موجود نیست لطفا ابتدا وارد شوید");
+      }
+
+      const response = await axios.put(
+        `http://localhost:7227/v1/user/${field}`,
+        { value },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        },
+      );
+
+      toast.success(`${field} با موفقیت بروزرسانی شد`);
+      return response.data;
+    } catch (error) {
+      toast.error(error.response?.data.message || "خطایی رخ داد");
+      return rejectWithValue(error.response?.data.message || "خطایی رخ داد");
+    }
+  },
+);
+
+export const disabledUser = createAsyncThunk(
+  "user/disable",
+  async (_, { rejectWithValue }) => {
+    try {
+      const token = Cookies.get("accessToken");
+      if (!token) {
+        throw new Error("توکن موجود نیست لطفا ابتدا وارد شوید");
+      }
+
+      const response = await axios.put(
+        "http://localhost:7227/v1/user/settings",
+        {},
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        },
+      );
+
+      toast.success("حساب کاربری شما با موفقیت غیرفعال شد");
+      return response.data;
+    } catch (error) {
+      toast.error(error.response?.data.message || "خطایی رخ داد");
+      return rejectWithValue(error.response?.data.message || "خطایی رخ داد");
+    }
+  },
+);
+
+export const deleteUser = createAsyncThunk(
+  "user/delete",
+  async (_, { rejectWithValue }) => {
+    try {
+      const token = Cookies.get("accessToken");
+      if (!token) {
+        throw new Error("توکن موجود نیست لطفا ابتدا وارد شوید");
+      }
+
+      const response = await axios.delete(
+        "http://localhost:7227/v1/user/settings",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        },
+      );
+
+      toast.success("حساب کاربری شما با موفقیت حذف شد");
+      return response.data;
+    } catch (error) {
+      toast.error(error.response?.data.message || "خطایی رخ داد");
+      return rejectWithValue(error.response?.data.message || "خطایی رخ داد");
+    }
+  },
+);
+
 const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
     clearUser: (state) => {
-      state.avatar = null;
-      state.username = null;
-      state.bio = null;
       Cookies.remove("accessToken");
       toast.success("با موفقیت خارج شدید");
     },
   },
   extraReducers: (builder) => {
+    // fetching user information
     builder
       .addCase(fetchUser.pending, (state) => {
         state.loading = true;
@@ -102,12 +183,14 @@ const userSlice = createSlice({
         state.username = action.payload.username;
         state.bio = action.payload.bio;
         state.email = action.payload.email;
+        state.createdAt = action.payload.createdAt;
         state.name = action.payload.name;
       })
       .addCase(fetchUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       });
+    // update and upload avatar image
     builder
       .addCase(uploadAvatar.pending, (state) => {
         state.loading = true;
@@ -118,6 +201,52 @@ const userSlice = createSlice({
         state.avatar = action.payload;
       })
       .addCase(uploadAvatar.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      });
+    // update user information
+    builder
+      .addCase(updateUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(updateUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.username = action.payload.username;
+        state.bio = action.payload.bio;
+        state.email = action.payload.email;
+        state.name = action.payload.name;
+      })
+      .addCase(updateUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      });
+    // disable user account
+    builder
+      .addCase(disabledUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(disabledUser.fulfilled, (state) => {
+        state.loading = false;
+        state.error = null;
+      })
+      .addCase(disabledUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      });
+    //delete user account
+    builder
+      .addCase(deleteUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(deleteUser.fulfilled, (state) => {
+        state.loading = false;
+        state.error = null;
+        Cookies.remove("accessToken");
+      })
+      .addCase(deleteUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       });
