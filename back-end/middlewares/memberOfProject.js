@@ -4,7 +4,7 @@ const userModel = require("../models/user");
 module.exports = async (req, res, next) => {
     try {
         const userId = req.user._id;
-        const projectId = req.params.project || req.body.project;
+        const projectId = req.params.projectId || req.body.project;
 
         if (!projectId) {
             return res.status(400).json({

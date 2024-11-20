@@ -51,7 +51,7 @@ const schema = mongoose.Schema(
                 ref: "Comment",
             },
         ],
-        isComplite: {
+        isComplete: {
             type: Boolean,
             default: false,
         },

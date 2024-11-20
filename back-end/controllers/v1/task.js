@@ -87,7 +87,7 @@ exports.getTask = async (req, res) => {
     }
 };
 
-exports.toggleComplite = async (req, res) => {
+exports.toggleComplete = async (req, res) => {
     const { taskId } = req.params;
 
     try {
@@ -96,7 +96,7 @@ exports.toggleComplite = async (req, res) => {
             return res.status(404).json({ msg: "Task not found" });
         }
 
-        task.isComplite = !task.isComplite;
+        task.isComplete = !task.isComplete;
         await task.save();
         return res.status(200).json(task);
     } catch (err) {

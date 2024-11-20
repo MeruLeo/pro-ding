@@ -1,5 +1,6 @@
 const projectModel = require("../../models/project");
 const userModel = require("../../models/user");
+const taskModel = require("../../models/task");
 const commentModel = require("../../models/comment");
 
 exports.create = async (req, res) => {
@@ -33,7 +34,7 @@ exports.create = async (req, res) => {
 };
 
 exports.getProjectInfo = async (req, res) => {
-    const { projectId } = req.body;
+    const { projectId } = req.params;
     try {
         const project = await projectModel
             .findById(projectId)
@@ -230,6 +231,34 @@ exports.getAllProjects = async (req, res) => {
     } catch (err) {
         return res.status(500).json({
             message: "Failed to get all projects",
+            error: err.message,
+        });
+    }
+};
+
+exports.showProgress = async (req, res) => {
+    const { project } = req.body;
+
+    try {
+        const mainProject = await projectModel
+            .findById(project)
+            .populate("tasks");
+        if (!mainProject) {
+            return res.status(404).json({
+                msg: "Project not found",
+            });
+        }
+
+        const totalTasks = mainProject.tasks.length;
+        const completedTasks = mainProject.tasks.filter(
+            (task) => task.isComplete === true,
+        ).length;
+
+        const progress = Math.round((completedTasks / totalTasks) * 100);
+        return res.status(200).json({ progress });
+    } catch (err) {
+        return res.status(500).json({
+            message: "Failed to calculate project progress",
             error: err.message,
         });
     }

@@ -3,82 +3,82 @@
 @tailwind utilities;
 
 @font-face {
-  font-family: "SfBold";
-  src: url(/public/fonts/San\ Francisco\ bold\ .ttf);
+    font-family: "SfBold";
+    src: url(/public/fonts/San\ Francisco\ bold\ .ttf);
 }
 
 :root {
-  --sf-bold: "SfBold", sans-serif;
+    --sf-bold: "SfBold", sans-serif;
 }
 
 .test {
-  background-color: red;
+    background-color: red;
 }
 
 .grad-bg {
-  background: linear-gradient(to right, #2aff7d, #0fbf4c);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+    background: linear-gradient(to right, #2aff7d, #0fbf4c);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .open {
-  animation: OpenAni 0.3s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+    animation: OpenAni 0.3s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
 }
 
 .close {
-  animation: CloseAni 0.3s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+    animation: CloseAni 0.3s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
 }
 
 .open-overlay {
-  animation: openOverlay 0.3s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+    animation: openOverlay 0.3s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
 }
 .close-overlay {
-  animation: closeOverlay 0.3s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+    animation: closeOverlay 0.3s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
 }
 
 @keyframes openOverlay {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
 }
 @keyframes closeOverlay {
-  0% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-  }
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
 }
 
 @keyframes OpenAni {
-  0% {
-    display: none;
-    opacity: 0;
-    transform: translateY(-50%) scale(0.5);
-    filter: blur(30px);
-  }
-  100% {
-    display: block;
-    opacity: 1;
-    transform: translateY(0) scale(1);
-    filter: blur(0);
-  }
+    0% {
+        display: none;
+        opacity: 0;
+        transform: translateY(-50%) scale(0.5);
+        filter: blur(30px);
+    }
+    100% {
+        display: block;
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
+    }
 }
 
 @keyframes CloseAni {
-  0% {
-    display: block;
-    opacity: 1;
-    transform: translateY(0) scale(1);
-    filter: blur(0);
-  }
-  100% {
-    opacity: 0;
-    transform: translateY(-20%) scale(0.8);
-    filter: blur(10px);
-  }
+    0% {
+        display: block;
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-20%) scale(0.8);
+        filter: blur(10px);
+    }
 }

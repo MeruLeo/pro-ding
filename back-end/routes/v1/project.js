@@ -4,22 +4,28 @@ const authMiddleware = require("../../middlewares/auth");
 const isOwnerMiddleware = require("../../middlewares/projectOwner");
 const multer = require("multer");
 const multerStorage = require("../../utils/projectIconUploader");
+const memberOfProject = require("../../middlewares/memberOfProject");
 
 const router = express.Router();
 
+router.route("/").post(
+    authMiddleware,
+    multer({
+        storage: multerStorage,
+        limits: { fileSize: 1000000000 },
+    }).single("icon"),
+    projectCtrller.create,
+);
+
 router
-    .route("/")
-    .post(
-        authMiddleware,
-        multer({
-            storage: multerStorage,
-            limits: { fileSize: 1000000000 },
-        }).single("icon"),
-        projectCtrller.create,
-    )
-    .get(authMiddleware, projectCtrller.getProjectInfo);
+    .route("/:projectId")
+    .get(authMiddleware, memberOfProject, projectCtrller.getProjectInfo);
 
 router.route("/getAll").get(authMiddleware, projectCtrller.getAllProjects);
+
+router
+    .route("/progress")
+    .get(authMiddleware, memberOfProject, projectCtrller.showProgress);
 
 router
     .route("/:status")
