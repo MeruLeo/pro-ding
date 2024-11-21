@@ -12,6 +12,7 @@ import {
     TasksIcon,
     SharesIcon,
     SendCommentsIcon,
+    PlusIcon,
 } from "../icons/icons";
 import { usePathname } from "next/navigation";
 import { Divider } from "@nextui-org/react";
@@ -95,6 +96,15 @@ const ProjectSidebar = () => {
                     {mainPaths.map((mainPath, index) => (
                         <MainPath key={index} {...mainPath} />
                     ))}
+                </ul>
+                <Divider className="my-4" />
+                <ul className="flex flex-col gap-4">
+                    <MainPath
+                        key={`new`}
+                        icon={<PlusIcon />}
+                        label="پروژه جدید"
+                        path="/"
+                    />
                 </ul>
                 <Divider className="my-4" />
                 <ul className="flex flex-col gap-4">

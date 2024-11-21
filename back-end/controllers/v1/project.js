@@ -38,7 +38,8 @@ exports.getProjectInfo = async (req, res) => {
     try {
         const project = await projectModel
             .findById(projectId)
-            .populate("members", "-password");
+            .populate("members", "-password")
+            .populate("owner", "-password");
 
         if (!project) {
             return res.status(404).json({ msg: "Project not found" });

@@ -30,7 +30,7 @@ module.exports = async (req, res, next) => {
         next();
     } catch (err) {
         return res.status(500).json({
-            message: "Failed to access project, you not member of this project",
+            message: "شما عضو این پروژه نیستید",
             error: err.message,
         });
     }

@@ -17,11 +17,10 @@ router.route("/").post(
     projectCtrller.create,
 );
 
+router.route("/getAll").get(authMiddleware, projectCtrller.getAllProjects);
 router
     .route("/:projectId")
     .get(authMiddleware, memberOfProject, projectCtrller.getProjectInfo);
-
-router.route("/getAll").get(authMiddleware, projectCtrller.getAllProjects);
 
 router
     .route("/progress")

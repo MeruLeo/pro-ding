@@ -60,7 +60,7 @@ export default function RootLayout({
                 >
                     <div className="relative overflow-auto flex flex-col h-screen">
                         {/* <StatusIsland /> */}
-                        <main className="container mx-auto h-screen max-w-7xl flex-grow p-20">
+                        <main className="container mx-auto h-screen max-w-7xl flex-grow">
                             <Toaster position="top-left" />
                             {children}
                         </main>
