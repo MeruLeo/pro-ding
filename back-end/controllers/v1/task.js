@@ -1,5 +1,6 @@
 const taskModel = require("../../models/task");
 const projectModel = require("../../models/project");
+const { default: mongoose } = require("mongoose");
 
 exports.create = async (req, res) => {
     const { title, description, startDate, projectId, assignee } = req.body;
@@ -89,6 +90,9 @@ exports.getTask = async (req, res) => {
 
 exports.toggleComplete = async (req, res) => {
     const { taskId } = req.params;
+    if (!mongoose.Types.ObjectId.isValid(taskId)) {
+        return res.status(400).json({ msg: "Invalid Task ID" });
+    }
 
     try {
         const task = await taskModel.findById(taskId);

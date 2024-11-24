@@ -79,7 +79,7 @@ const ProjectSidebar = () => {
     return (
         <>
             <button
-                className={`fixed top-4 p-3 border-2 border-zinc-700 shadow-2xl rounded-full bg-grayDark hover:scale-95 transition-all duration-300 ${
+                className={`fixed top-4 p-3 z-50 border-2 border-zinc-700 shadow-2xl rounded-full bg-grayDark hover:scale-95 transition-all duration-300 ${
                     isOpen ? "right-72 " : "right-4 "
                 }`}
                 onClick={() => setIsOpen(!isOpen)}

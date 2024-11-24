@@ -11,9 +11,11 @@ export default function Error({
 }) {
     // استخراج پیام خطا
     const errorMessage =
-        error instanceof Error
-            ? error.message // اگر نوع Error است
-            : error.message || "خطای ناشناخته رخ داده است"; // در صورت ساختار متفاوت
+        error && typeof error === "object"
+            ? error instanceof Error
+                ? error.message // اگر نوع Error است
+                : error.message || "خطای ناشناخته رخ داده است" // اگر ساختار متفاوتی دارد
+            : "خطای نامعتبر رخ داده است"; // در صورتی که error مقدار نادرست دارد
 
     const componentStack = error._componentStack || null; // بررسی وجود استک خطا
 

@@ -16,7 +16,7 @@ router.route("/user-tasks").get(authMiddleware, taskCtrller.getUserTasks);
 router
     .route("/:taskId")
     .get(authMiddleware, isOwnerMiddleware, taskCtrller.getTask)
-    .put(authMiddleware, isOwnerMiddleware, taskCtrller.toggleComplete)
+    .put(authMiddleware, isAssigneeMiddleware, taskCtrller.toggleComplete)
     .delete(authMiddleware, isOwnerMiddleware, taskCtrller.delete);
 
 router

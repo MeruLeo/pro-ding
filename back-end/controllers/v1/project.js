@@ -39,7 +39,8 @@ exports.getProjectInfo = async (req, res) => {
         const project = await projectModel
             .findById(projectId)
             .populate("members", "-password")
-            .populate("owner", "-password");
+            .populate("owner", "-password")
+            .populate("tasks", "-__v");
 
         if (!project) {
             return res.status(404).json({ msg: "Project not found" });
@@ -226,7 +227,8 @@ exports.getAllProjects = async (req, res) => {
                 $or: [{ owner: userId }, { members: { $in: [userId] } }],
             })
             .populate("owner", "-password")
-            .populate("members", "-password");
+            .populate("members", "-password")
+            .populate("tasks", "-__v");
 
         return res.status(200).json(projects);
     } catch (err) {

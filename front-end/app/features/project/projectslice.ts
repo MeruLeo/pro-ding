@@ -1,3 +1,4 @@
+/* eslint-disable padding-line-between-statements */
 /* eslint-disable prettier/prettier */
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
@@ -11,6 +12,7 @@ interface Task {
     status: string;
     assignee: string;
     dueDate: string;
+    isComplete: boolean;
 }
 
 interface ProjectMember {
@@ -39,6 +41,7 @@ interface ProjectState {
     projects: Project[];
     loading: boolean;
     error: string | null;
+    hasTaskAccess: boolean;
 }
 
 // Initial state
@@ -47,6 +50,7 @@ const initialState: ProjectState = {
     projects: [],
     loading: false,
     error: null,
+    hasTaskAccess: false,
 };
 
 // Async thunks
@@ -64,7 +68,10 @@ export const fetchProject = createAsyncThunk(
                     headers: { Authorization: `Bearer ${token}` },
                 },
             );
-            return response.data;
+            return {
+                project: response.data,
+                hasTaskAccess: response.data.hasTaskAccess,
+            };
         } catch (error) {
             return rejectWithValue(
                 error.response?.data || "Failed to fetch project",
@@ -174,49 +181,43 @@ export const deleteProject = createAsyncThunk(
     },
 );
 
+export const toggleCompleteTask = createAsyncThunk(
+    "peoject/task/toggleComplete",
+    async (taskId: string, { rejectWithValue }) => {
+        try {
+            const token = Cookies.get("accessToken");
+            if (!token) {
+                throw new Error("Unauthorized");
+            }
+            const response = await axios.put(
+                `http://localhost:7227/v1/task/${taskId}`,
+                {},
+                {
+                    headers: { Authorization: `Bearer ${token}` },
+                },
+            );
+
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(
+                error.response?.data || "Failed to toggle task completion",
+            );
+        }
+    },
+);
+
 // Slice
 const projectSlice = createSlice({
     name: "project",
     initialState,
     reducers: {
-        setProjectProgress: (state, action: PayloadAction<number>) => {
-            if (state.currentProject) {
-                state.currentProject.progress = action.payload;
-            }
-        },
-        addTask: (state, action: PayloadAction<Task>) => {
-            if (state.currentProject) {
-                state.currentProject.tasks.push(action.payload);
-            }
-        },
-        removeTask: (state, action: PayloadAction<string>) => {
-            if (state.currentProject) {
-                state.currentProject.tasks = state.currentProject.tasks.filter(
-                    (task) => task.id !== action.payload,
-                );
-            }
-        },
-        updateTask: (state, action: PayloadAction<Task>) => {
-            if (state.currentProject) {
-                const index = state.currentProject.tasks.findIndex(
-                    (task) => task.id === action.payload.id,
-                );
-                if (index !== -1) {
-                    state.currentProject.tasks[index] = action.payload;
-                }
-            }
-        },
-        addMember: (state, action: PayloadAction<ProjectMember>) => {
-            if (state.currentProject) {
-                state.currentProject.members.push(action.payload);
-            }
-        },
-        removeMember: (state, action: PayloadAction<string>) => {
-            if (state.currentProject) {
-                state.currentProject.members =
-                    state.currentProject.members.filter(
-                        (member) => member.id !== action.payload,
-                    );
+        toggleTaskCompletion: (state, action: PayloadAction<string>) => {
+            const taskId = action.payload;
+            const task = state.currentProject?.project.tasks.find(
+                (task) => task._id === taskId,
+            );
+            if (task) {
+                task.isComplete = !task.isComplete;
             }
         },
     },
@@ -228,7 +229,8 @@ const projectSlice = createSlice({
             })
             .addCase(fetchProject.fulfilled, (state, action) => {
                 state.loading = false;
-                state.currentProject = action.payload;
+                state.currentProject = action.payload.project;
+                state.hasTaskAccess = action.payload.hasTaskAccess;
                 state.error = null;
             })
             .addCase(fetchProject.rejected, (state, action) => {
@@ -248,47 +250,28 @@ const projectSlice = createSlice({
                 state.loading = false;
                 state.error = action.payload as string;
             })
-            .addCase(createProject.fulfilled, (state, action) => {
-                state.projects.push(action.payload);
-                state.error = null;
-            })
-            .addCase(updateProject.fulfilled, (state, action) => {
-                const index = state.projects.findIndex(
-                    (project) => project.id === action.payload.id,
+            .addCase(toggleCompleteTask.fulfilled, (state, action) => {
+                const index = state.currentProject.project.tasks.findIndex(
+                    (task) => task._id === action.payload._id,
                 );
                 if (index !== -1) {
-                    state.projects[index] = action.payload;
+                    state.currentProject.project.tasks[index].isComplete =
+                        !state.currentProject.project.tasks[index].isComplete;
                 }
-                if (
-                    state.currentProject &&
-                    state.currentProject.id === action.payload.id
-                ) {
-                    state.currentProject = action.payload;
-                }
+                state.error = null;
+                state.loading = false;
+            })
+            .addCase(toggleCompleteTask.pending, (state) => {
+                state.loading = true;
                 state.error = null;
             })
-            .addCase(deleteProject.fulfilled, (state, action) => {
-                state.projects = state.projects.filter(
-                    (project) => project.id !== action.payload,
-                );
-                if (
-                    state.currentProject &&
-                    state.currentProject.id === action.payload
-                ) {
-                    state.currentProject = null;
-                }
-                state.error = null;
+            .addCase(toggleCompleteTask.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload as string;
             });
     },
 });
 
-export const {
-    setProjectProgress,
-    addTask,
-    removeTask,
-    updateTask,
-    addMember,
-    removeMember,
-} = projectSlice.actions;
+export const { toggleTaskCompletion } = projectSlice.actions;
 
 export default projectSlice.reducer;

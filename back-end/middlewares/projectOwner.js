@@ -7,7 +7,7 @@ module.exports = async (req, res, next) => {
 
         if (!project) {
             return res.status(400).json({
-                msg: "Project id is required",
+                msg: "آیدی پروژه الزامی است",
             });
         }
 
