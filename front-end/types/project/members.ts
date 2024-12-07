@@ -4,9 +4,11 @@ export type TaskProps = {
     title: string;
     description: string;
     startDate: string;
+    isActive: boolean;
     endDate?: string;
-    assignee: string;
+    assignee: MemberProps;
     isComplete: boolean;
+    complete: () => void;
 };
 
 export interface MemberProps {

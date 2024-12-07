@@ -47,7 +47,7 @@ exports.create = async (req, res) => {
 };
 
 exports.getTasksFromProject = async (req, res) => {
-    const { projectId } = req.body;
+    const { projectId } = req.params;
 
     try {
         const tasks = await taskModel
@@ -55,10 +55,11 @@ exports.getTasksFromProject = async (req, res) => {
             .populate("assignee", "-password")
             .populate("project");
 
-        if (!tasks) {
+        if (tasks.length === 0) {
+            // بررسی تعداد تسک‌ها
             return res
                 .status(404)
-                .json({ msg: "No tasks found for this project" });
+                .json({ msg: "تسکی برای شما در این پروژه تعریف نشده" });
         }
 
         return res.status(200).json(tasks);

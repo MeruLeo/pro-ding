@@ -6,10 +6,11 @@ const isAssigneeMiddleware = require("../../middlewares/taskAssignee");
 
 const router = express.Router();
 
+router.route("/").post(authMiddleware, isOwnerMiddleware, taskCtrller.create);
+
 router
-    .route("/")
-    .post(authMiddleware, isOwnerMiddleware, taskCtrller.create)
-    .get(authMiddleware, isAssigneeMiddleware, taskCtrller.getTasksFromProject);
+    .route("/:projectId")
+    .get(authMiddleware, taskCtrller.getTasksFromProject);
 
 router.route("/user-tasks").get(authMiddleware, taskCtrller.getUserTasks);
 

@@ -28,7 +28,7 @@ const ProjectMembers: React.FC<ProjectMembersProps> = ({ members }) => {
             </ul>
             <Link
                 href={`/members`}
-                className="bg-blueDark w-32 border-1 border-zinc-700 flex justify-between items-center p-4 rounded-full"
+                className="bg-blueDark w-32 border-1 border-zinc-700 transition-all duration-200 hover:scale-95 flex justify-between items-center p-4 rounded-full"
             >
                 همه اعضا
                 <ArrowLeftIcon />

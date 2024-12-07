@@ -3,18 +3,9 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import Cookies from "js-cookie";
+import { TaskProps } from "@/types/project/members";
 
 // Interfaces
-interface Task {
-    _id: string;
-    title: string;
-    description: string;
-    status: string;
-    assignee: string;
-    dueDate: string;
-    isComplete: boolean;
-}
-
 interface ProjectMember {
     _id: string;
     name: string;
@@ -25,13 +16,13 @@ interface Project {
     _id: string;
     name: string;
     description: string;
-    tasks: Task[];
-    privateTasks: Task[];
+    tasks: TaskProps[];
+    privateTasks: TaskProps[];
     owner: {
         name: string;
         username: string;
         avatar: string;
-        tasks: Task[];
+        tasks: TaskProps[];
     };
     createdAt: string;
     updatedAt: string;

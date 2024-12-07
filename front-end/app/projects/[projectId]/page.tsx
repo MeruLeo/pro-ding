@@ -18,13 +18,16 @@ import ProjectProgress, {
 import ProjectMembers, {
     ProjectMembersProps,
 } from "@/components/(project)/main/members/Members";
-import { TaskCarousel } from "@/components/task-carousel/TaskCarousel";
+import ProjectTasks, {
+    ProjectTasksProps,
+} from "@/components/(project)/main/tasks/Tasks";
 
 interface ProjectProps {
     header: ProjectHeaderProps;
     infos: ProjectInfosProps;
     progress: ProjectProgressProps;
     members: ProjectMembersProps;
+    projectId: string;
 }
 
 const Project: React.FC<ProjectProps> = ({
@@ -32,6 +35,7 @@ const Project: React.FC<ProjectProps> = ({
     infos,
     progress,
     members,
+    projectId,
 }) => {
     return (
         <section>
@@ -39,7 +43,7 @@ const Project: React.FC<ProjectProps> = ({
             <ProjectInfos {...infos} />
             <ProjectProgress {...progress} />
             <ProjectMembers {...members} />
-            <TaskCarousel />
+            <ProjectTasks projectId={projectId} />
         </section>
     );
 };
@@ -73,6 +77,7 @@ export default function ProjectPage() {
                         }}
                         progress={{ ...currentProject }}
                         members={{ ...currentProject }}
+                        projectId={projectId}
                     />
                 </>
             ) : (
